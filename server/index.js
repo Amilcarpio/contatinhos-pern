@@ -38,10 +38,10 @@ app.get('/contatos/:id', async (req, res) => {
 //create
 app.post('/contatos', async (req, res) => {
   try {
-    const { nome, numero, email, sexo } = req.body
+    const { nome, numero, cargo, email, sexo } = req.body
     const newContact = await pool.query(
-      'INSERT INTO contatos (nome, numero, email, sexo) VALUES ($1, $2, $3, $4) RETURNING *',
-      [nome, numero, email, sexo]
+      'INSERT INTO contatos (nome, numero, cargo, email, sexo) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [nome, numero, cargo, email, sexo]
     )
 
     res.json(newContact.rows[0])
@@ -54,10 +54,10 @@ app.post('/contatos', async (req, res) => {
 app.put('/contatos/:id', async (req, res) => {
   try {
     const { id } = req.params
-    const { nome, numero, email, sexo } = req.body
+    const { nome, numero, cargo, email, sexo } = req.body
     const updateContact = await pool.query(
-      'UPDATE contatos SET nome = $1, numero = $2, email = $3, sexo = $4 WHERE contato_id = $5 ',
-      [nome, numero, email, sexo, id]
+      'UPDATE contatos SET nome = $1, numero = $2, email = $3, sexo = $4, cargo = $5 WHERE contato_id = $6 ',
+      [nome, numero, email, sexo, cargo, id]
     )
 
     res.json(updateContact.rows)

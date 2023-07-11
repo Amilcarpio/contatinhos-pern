@@ -7,12 +7,18 @@ const EditContacts = ({ contato }) => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    reset
   } = useForm()
 
   const onSubmit = async data => {
     try {
-      const body = { nome: data.nome, numero: data.numero }
+      const body = {
+        nome: data.nome,
+        email: data.email,
+        sexo: data.sexo,
+        cargo: data.cargo,
+        numero: data.numero
+      }
       const response = await fetch(
         `http://localhost:5000/contatos/${contato.contato_id}`,
         {
@@ -26,12 +32,6 @@ const EditContacts = ({ contato }) => {
       console.error(err.message)
     }
   }
-
-  const handleCancel = () => {
-    setValue('nome', contato.nome)
-    setValue('numero', contato.numero)
-  }
-
   return (
     <React.Fragment>
       <button
@@ -43,8 +43,12 @@ const EditContacts = ({ contato }) => {
         Editar Informações
       </button>
 
-      <div className='modal' id={`id${contato.contato_id}`}>
-        <div className='modal-dialog'>
+      <div
+        className='modal'
+        id={`id${contato.contato_id}`}
+        onClick={() => reset()}
+      >
+        <div className='modal-dialog modal-dialog-centered' role='document'>
           <div className='modal-content'>
             <div className='modal-header'>
               <h4 className='modal-title'>Editar Contato</h4>
@@ -52,7 +56,7 @@ const EditContacts = ({ contato }) => {
                 type='button'
                 className='btn-close'
                 data-bs-dismiss='modal'
-                onClick={handleCancel}
+                onClick={() => reset()}
               ></button>
             </div>
 
@@ -75,6 +79,76 @@ const EditContacts = ({ contato }) => {
                   {errors.nome && (
                     <div className='invalid-feedback'>
                       {errors.nome.message}
+                    </div>
+                  )}
+                </div>
+                <div className='mb-3' id='divEmail'>
+                  <label htmlFor='email' className='form-label'>
+                    E-mail:
+                  </label>
+                  <input
+                    type='text'
+                    id='email'
+                    defaultValue={contato.email}
+                    className={`form-control ${
+                      errors.email ? 'is-invalid' : ''
+                    }`}
+                    placeholder='E-mail'
+                    {...register('email', {
+                      required: 'Insira um e-mail válido.',
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'E-mail inválido'
+                      }
+                    })}
+                  />
+                  {errors.email && (
+                    <div className='invalid-feedback'>
+                      {errors.email.message}
+                    </div>
+                  )}
+                </div>
+                <div className='mb-3' id='divSex'>
+                  <label htmlFor='sexo' className='form-label'>
+                    Sexo:
+                  </label>
+                  <select
+                    id='sexo'
+                    className={`form-select ${errors.sexo ? 'is-invalid' : ''}`}
+                    placeholder='Sexo'
+                    defaultValue={contato.sexo}
+                    {...register('sexo', { required: 'Selecione um item.' })}
+                  >
+                    <option value=''>Selecione um gênero</option>
+                    <option value='Masculino'>Masculino</option>
+                    <option value='Feminino'>Feminino</option>
+                    <option value='N/A'>Não especificar</option>
+                  </select>
+                  {errors.sexo && (
+                    <div className='invalid-feedback'>
+                      {errors.sexo.message}
+                    </div>
+                  )}
+                </div>
+                <div className='mb-3' id='divCargo'>
+                  <label htmlFor='cargo' className='form-label'>
+                    Cargo:
+                  </label>
+                  <input
+                    type='text'
+                    id='cargo'
+                    className={`form-control ${
+                      errors.cargo ? 'is-invalid' : ''
+                    }`}
+                    placeholder='Cargo'
+                    defaultValue={contato.cargo}
+                    {...register('cargo', {
+                      required: 'Insira um cargo válido.'
+                    })}
+                  />
+                  {errors.cargo && (
+                    <div className='invalid-feedback'>
+                      {errors.cargo.message}
                     </div>
                   )}
                 </div>
@@ -105,7 +179,7 @@ const EditContacts = ({ contato }) => {
                     type='button'
                     className='btn btn-danger'
                     data-bs-dismiss='modal'
-                    onClick={handleCancel}
+                    onClick={() => reset()}
                   >
                     Cancelar
                   </button>

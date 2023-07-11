@@ -25,6 +25,10 @@ const InputContact = () => {
     }
   }
 
+  const handleCancel = () => {
+    reset()
+  }
+
   return (
     <React.Fragment>
       <h1 className='text-center mt-5'>Quadro de Funcionários</h1>
@@ -49,7 +53,7 @@ const InputContact = () => {
             </div>
             <div className='modal-body'>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='mb-3'>
+                <div className='mb-3' id='divName'>
                   <label htmlFor='nome' className='form-label'>
                     Nome:
                   </label>
@@ -68,7 +72,7 @@ const InputContact = () => {
                     </div>
                   )}
                 </div>
-                <div className='mb-3'>
+                <div className='mb-3' id='divEmail'>
                   <label htmlFor='email' className='form-label'>
                     E-mail:
                   </label>
@@ -93,7 +97,7 @@ const InputContact = () => {
                     </div>
                   )}
                 </div>
-                <div className='mb-3'>
+                <div className='mb-3' id='divSex'>
                   <label htmlFor='sexo' className='form-label'>
                     Sexo:
                   </label>
@@ -114,23 +118,21 @@ const InputContact = () => {
                     </div>
                   )}
                 </div>
-                <div className='mb-3'>
+                <div className='mb-3' id='divCargo'>
                   <label htmlFor='cargo' className='form-label'>
                     Cargo:
                   </label>
-                  <select
+                  <input
+                    type='text'
                     id='cargo'
-                    className={`form-select ${
+                    className={`form-control ${
                       errors.cargo ? 'is-invalid' : ''
                     }`}
                     placeholder='Cargo'
-                    {...register('cargo', { required: 'Selecione um item.' })}
-                  >
-                    <option value=''>Selecione um cargo</option>
-                    <option value='Diretor'>Diretor</option>
-                    <option value='Assistente'>Assistente</option>
-                    <option value='Analista'>Analista</option>
-                  </select>
+                    {...register('cargo', {
+                      required: 'Insira um cargo válido.'
+                    })}
+                  />
                   {errors.cargo && (
                     <div className='invalid-feedback'>
                       {errors.cargo.message}
@@ -165,6 +167,7 @@ const InputContact = () => {
                     type='button'
                     className='btn btn-secondary'
                     data-bs-dismiss='modal'
+                    onClick={handleCancel}
                   >
                     Cancelar
                   </button>
