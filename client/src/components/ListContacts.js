@@ -38,28 +38,27 @@ const ListContacts = () => {
         <thead>
           <tr>
             <th scope='col'>Nome</th>
+            <th scope='col'>Cargo</th>
+            <th scope='col'>Sexo</th>
+            <th scope='col'>Email</th>
             <th scope='col'>Número</th>
-            <th scope='col'></th>
-            <th scope='col'></th>
+            <th scope='col'>&nbsp;</th>
+            <th scope='col'>&nbsp;</th>
           </tr>
         </thead>
-        {contatos.map(contato => (
-          <tbody>
+        {contatos.map((contato, index) => (
+          <tbody key={index}>
             <tr key={contato.contato_id}>
               <td>{contato.nome}</td>
+              <td>{contato.cargo}</td>
+              <td>{contato.sexo}</td>
+              <td>{contato.email}</td>
               <td>{contato.numero}</td>
               <td><EditContacts contato={contato} /></td>
               <td><button className='btn btn-danger' onClick={() => deleteContact(contato.contato_id)} >Deletar</button></td>
             </tr>
           </tbody>
         ))}
-
-        {/* <tr>
-            <td>Mark</td>
-            <td>(85)9999-9999</td>
-            <td>Editar</td>
-            <td>Excluir</td>
-          </tr> */}
       </table>
     </Fragment>
   )
