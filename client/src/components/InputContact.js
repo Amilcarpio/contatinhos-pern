@@ -31,14 +31,19 @@ const InputContact = () => {
 
   return (
     <React.Fragment>
-      <h1 className='text-center mt-5'>Quadro de Funcionários</h1>
-      <button
-        className='btn btn-primary'
-        data-bs-toggle='modal'
-        data-bs-target='#addContactModal'
-      >
-        Adicionar
-      </button>
+      <div className='d-flex justify-content-between bg-secondary align-items-center p-3'>
+        <h1 className='text-center text-light'>Quadro de Funcionários</h1>
+        <div>
+          <button
+            className='btn btn-primary'
+            data-bs-toggle='modal'
+            data-bs-target='#addContactModal'
+          >
+            Adicionar
+          </button>
+        </div>
+      </div>
+
       <div className='modal' id='addContactModal' tabIndex='-1' role='dialog'>
         <div className='modal-dialog modal-dialog-centered' role='document'>
           <div className='modal-content'>
