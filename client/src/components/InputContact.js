@@ -3,13 +3,22 @@ import { useForm } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 const InputContact = () => {
+  //react-hook-form library hooks
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset
   } = useForm()
+  //validation of the phone number
+  const validatePhoneNumber = value => {
+    if (value.length !== 15) {
+      return 'Digite um número válido.'
+    }
+    return true
+  }
 
+  //fetching data
   const onSubmit = async data => {
     try {
       const response = await fetch('http://localhost:5000/contatos', {
@@ -25,20 +34,18 @@ const InputContact = () => {
     }
   }
 
-  const handleCancel = () => {
-    reset()
-  }
-
   return (
     <React.Fragment>
+      {/* create data modal */}
       <div className='d-flex justify-content-between bg-secondary align-items-center p-3'>
         <h1 className='text-center text-light'>Quadro de Funcionários</h1>
         <div>
           <button
-            className='btn btn-primary'
+            className='btn btn-success btn-lg'
             data-bs-toggle='modal'
             data-bs-target='#addContactModal'
           >
+            <i className='bi bi-plus-square'>&nbsp;&nbsp;</i>
             Adicionar
           </button>
         </div>
@@ -54,6 +61,7 @@ const InputContact = () => {
                 className='btn-close'
                 data-bs-dismiss='modal'
                 aria-label='Close'
+                onClick={() => reset()}
               ></button>
             </div>
             <div className='modal-body'>
@@ -158,7 +166,8 @@ const InputContact = () => {
                     }`}
                     placeholder='Número'
                     {...register('numero', {
-                      required: 'Digite um número válido.'
+                      validate: validatePhoneNumber,
+                      required: 'Campo obrigatório'
                     })}
                   />
                   {errors.numero && (
@@ -172,7 +181,7 @@ const InputContact = () => {
                     type='button'
                     className='btn btn-secondary'
                     data-bs-dismiss='modal'
-                    onClick={handleCancel}
+                    onClick={() => reset()}
                   >
                     Cancelar
                   </button>

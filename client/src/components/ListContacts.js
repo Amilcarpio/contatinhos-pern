@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { Modal, Button } from 'react-bootstrap'
 
 import EditContacts from './EditContacts'
 
@@ -81,6 +82,7 @@ const ListContacts = () => {
 
   return (
     <Fragment>
+      {/* table content */}
       <table className='table table-striped text-center table-hover'>
         <thead className='table-active text-secondary'>
           <tr>
@@ -95,70 +97,53 @@ const ListContacts = () => {
         </thead>
         {paginatedContatos.map((contato, index) => (
           <tbody key={index}>
-            <tr className='text-dark' key={contato.contato_id}>
-              <td>{contato.nome}</td>
+            <tr className='text-secondary' key={contato.contato_id}>
+              <td className='text-dark'>{contato.nome}</td>
               <td>{contato.cargo}</td>
               <td>{contato.sexo}</td>
               <td>{contato.email}</td>
-              <td>{contato.numero}</td>
+              <td className='text-primary'>{contato.numero}</td>
               <td>
                 <EditContacts contato={contato} />
               </td>
               <td>
                 <button
-                  className='btn btn-danger'
+                  className='btn btn-outline-secondary'
                   onClick={() => deleteContact(contato.contato_id)}
                 >
-                  Deletar
+                  Apagar
                 </button>
               </td>
             </tr>
           </tbody>
         ))}
       </table>
-      {showConfirmationModal && (
-        <div className='modal-dialog' tabIndex='-1' role='dialog'>
-          <div className='modal-dialog modal-dialog-centered' role='document'>
-            <div className='modal-content'>
-              <div className='modal-header'>
-                <h5 className='modal-title'>
-                  Deletar funcionário do banco de dados.
-                </h5>
-                <button
-                  type='button'
-                  className='btn-close'
-                  data-bs-dismiss='modal'
-                  aria-label='Fechar'
-                  onClick={cancelDelete}
-                />
-              </div>
-              <div className='modal-body'>
-                <p>Deseja deletar o funcionário do banco de dados?</p>
-              </div>
-              <div className='modal-footer'>
-                <button
-                  type='button'
-                  className='btn btn-danger'
-                  onClick={confirmDelete}
-                >
-                  Deletar
-                </button>
-                <button
-                  type='button'
-                  className='btn btn-secondary'
-                  data-dismiss='modal'
-                  onClick={cancelDelete}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* delete modal */}
+      <Modal
+        show={showConfirmationModal}
+        onHide={cancelDelete}
+        centered
+        backdrop='static'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Deletar funcionário do banco de dados.</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Deseja deletar o funcionário do banco de dados?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='danger' onClick={confirmDelete}>
+            Deletar
+          </Button>
+          <Button variant='secondary' onClick={cancelDelete}>
+            Cancelar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* pagination footer */}
       <div className='pagination'>
         <button
-          className='btn btn-primary'
+          className='btn btn-secondary m-1'
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
         >
@@ -171,8 +156,8 @@ const ListContacts = () => {
               key={index}
               className={`btn ${
                 currentPage === index + 1
-                  ? 'btn-primary active'
-                  : 'btn-secondary'
+                  ? 'btn-secondary active m-1'
+                  : 'btn-secondary m-1'
               }`}
               onClick={() => goToPage(index + 1)}
             >
@@ -181,7 +166,7 @@ const ListContacts = () => {
           )
         )}
         <button
-          className='btn btn-primary'
+          className='btn btn-secondary m-1'
           onClick={goToNextPage}
           disabled={currentPage === Math.ceil(contatos.length / itemsPerPage)}
         >

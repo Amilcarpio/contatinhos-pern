@@ -1,11 +1,12 @@
-import React ,{ Fragment } from 'react';
-import './App.css';
+import React, { Fragment } from 'react'
+import './App.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 //components
-import InputContact from './components/InputContact';
-import ListContacts from './components/ListContacts';
+import InputContact from './components/InputContact'
+import ListContacts from './components/ListContacts'
 
-function App() {
+function App () {
   return (
     <Fragment>
       <div className='container'>
@@ -13,7 +14,7 @@ function App() {
         <ListContacts />
       </div>
     </Fragment>
-  );
+  )
 }
 
-export default App;
+export default App

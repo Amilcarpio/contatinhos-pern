@@ -3,13 +3,22 @@ import { useForm } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 const EditContacts = ({ contato }) => {
+  //react-hook-form library hooks
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset
   } = useForm()
+  //validation of the phone number
+  const validatePhoneNumber = value => {
+    if (value.length !== 15) {
+      return 'Digite um número válido.'
+    }
+    return true
+  }
 
+  //submiting data
   const onSubmit = async data => {
     try {
       const body = {
@@ -34,15 +43,15 @@ const EditContacts = ({ contato }) => {
   }
   return (
     <React.Fragment>
+      {/* edit data modal */}
       <button
         type='button'
-        className='btn btn-primary'
+        className='btn btn-outline-secondary'
         data-bs-toggle='modal'
         data-bs-target={`#id${contato.contato_id}`}
       >
         Editar Informações
       </button>
-
       <div
         className='modal'
         id={`id${contato.contato_id}`}
@@ -165,7 +174,10 @@ const EditContacts = ({ contato }) => {
                     }`}
                     placeholder='Número'
                     defaultValue={contato.numero}
-                    {...register('numero', { required: 'Campo obrigatório' })}
+                    {...register('numero', {
+                      validate: validatePhoneNumber,
+                      required: 'Campo obrigatório'
+                    })}
                   />
                   {errors.numero && (
                     <div className='invalid-feedback'>
